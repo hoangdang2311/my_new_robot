@@ -1,0 +1,30 @@
+<launch>
+  <!-- Arguments -->
+  <!-- <arg name="map_file" default="$(find my_new_robot)/my_robot_slam_new/maps/102H6_7-5.yaml"/> -->
+  <arg name="rvizconfig" default="$(find my_new_robot)/my_robot_navigation/rviz/navigation.rviz"/>
+  <arg name="move_forward_only" default="false"/>
+  
+  <!-- rviz -->
+  <include file="$(find my_new_robot)/my_robot_description/launch/urdf.launch">
+        <arg name="rvizconfig" value="$(arg rvizconfig)"/>
+  </include>
+
+  <!-- odometry -->
+  <node name="odom_pub" pkg="my_new_robot" type="odometry.py"/>
+  
+  <!-- Map server -->
+  <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/> -->
+
+  <!-- AMCL -->
+  <include file="$(find my_new_robot)/my_robot_auto_navigation/launch/amcl_auto.launch"/>
+
+  <!-- move_base -->
+  <include file="$(find my_new_robot)/my_robot_auto_navigation/launch/move_base_auto.launch">
+    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  </include>
+
+  <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
+      <rosparam command="load" file="$(find my_new_robot)/my_robot_slam/config/gmapping_params.yaml"/>
+  </node>
+
+</launch>

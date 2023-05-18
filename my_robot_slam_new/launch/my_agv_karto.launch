@@ -1,0 +1,24 @@
+<launch>
+  <!-- Arguments -->
+
+  <arg name="rvizconfig" default="$(find my_new_robot)/my_robot_slam/rviz/slam.rviz"/> 
+    <include file="$(find my_new_robot)/my_robot_description/launch/urdf.launch">
+        <arg name="rvizconfig" value="$(arg rvizconfig)"/>
+    </include>
+
+  <!-- <arg name="open_rviz" default="true"/> -->
+
+  <!-- slam_karto -->
+  <node pkg="slam_karto" type="slam_karto" name="slam_karto" output="screen">
+    <rosparam command="load" file="$(find my_new_robot)/my_robot_slam_new/config/karto_mapper_params.yaml"/>
+  </node>
+  
+  <node name="odom_pub" pkg="my_new_robot" type="odometry.py"/>
+
+  <!-- rviz -->
+  <!-- <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find my_agv)/my_agv_slam_new/rviz/slam.rviz"/>
+  </group> -->
+
+</launch>

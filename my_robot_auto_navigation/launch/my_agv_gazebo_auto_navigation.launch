@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="use_gazebo" default="true"/>
+    <arg name="rvizconfig" default="$(find my_new_robot)/my_robot_auto_navigation/rviz/navigation.rviz"/> 
+    <!-- <arg name="world_name" default="room1"/>
+    <arg name="map_name" default="room1_1-3"/> -->
+    <arg name="use_amcl" default="true"/>
+    <!-- <arg name="map_file" default="$(find my_new_robot)/my_robot_slam_new/maps/$(arg map_name).yaml" if="$(arg use_amcl)"/> -->
+    
+    <include file="$(find my_new_robot)/my_robot_gazebo/launch/robot_gazebo.launch" if="$(arg use_gazebo)">
+    </include>
+
+    <include file="$(find my_new_robot)/my_robot_description/launch/urdf.launch">
+        <arg name="rvizconfig" value="$(arg rvizconfig)"/>
+    </include>
+
+    <group if="$(arg use_amcl)">
+        <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/> -->
+        
+        <include file="$(find my_new_robot)/my_robot_auto_navigation/launch/amcl_auto.launch">
+        </include>
+    </group>
+
+    
+    <include file="$(find my_new_robot)/my_robot_auto_navigation/launch/move_base_auto.launch"/>
+
+    <!-- <node pkg="slam_karto" type="slam_karto" name="slam_karto" output="screen">
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_slam_new/config/karto_mapper_params.yaml"/>
+    </node> -->
+    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_slam/config/gmapping_params.yaml"/>
+    </node>
+</launch>

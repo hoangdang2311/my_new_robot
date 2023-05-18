@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="rvizconfig" default="$(find my_new_robot)/my_robot_navigation/rviz/navigation.rviz"/>  
+    <arg name="use_amcl" default="true"/>
+    <arg name="map_file" default="$(find my_new_robot)/my_robot_slam_new/maps/102h6_25-4.yaml" if="$(arg use_amcl)"/>
+    
+
+    <include file="$(find my_new_robot)/my_robot_description/launch/urdf.launch">
+        <arg name="rvizconfig" value="$(arg rvizconfig)"/>
+    </include>
+
+    <node name="odom_pub" pkg="my_new_robot" type="odometry.py"/>
+
+    <group if="$(arg use_amcl)">
+        <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+            
+        <include file="$(find my_new_robot)/my_robot_navigation/launch/amcl.launch">
+        </include>
+    </group>
+
+    <group unless="$(arg use_amcl)">
+        <node name="slam_karto_pub" pkg="slam_karto" type="slam_karto" output="screen">
+            <rosparam command="load" file="$(find my_new_robot)/my_robot_slam/config/karto_params.yaml"/>
+        </node>
+    </group>
+
+        
+    <include file="$(find my_new_robot)/my_robot_navigation/launch/move_base.launch"/>
+
+    <!-- <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 3.14159265359 0 0 base_link laser 100" /> -->
+</launch>
+

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="use_DWA" default="true"/>
+
+    <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_navigation/params/costmap_params/move_base_params.yaml"/>
+        
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_navigation/params/costmap_params/costmap_common_params.yaml" ns="global_costmap"/>
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_navigation/params/costmap_params/costmap_common_params.yaml" ns="local_costmap"/>
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_navigation/params/costmap_params/global_costmap_params.yaml"/>
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_navigation/params/costmap_params/local_costmap_params.yaml"/>
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_navigation/params/costmap_params/dwa_local_planner_params.yaml" if="$(arg use_DWA)"/>
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_navigation/params/costmap_params/base_global_planner_params.yaml"/>
+        <rosparam command="load" file="$(find my_new_robot)/my_robot_navigation/params/costmap_params/base_local_planner_params.yaml" unless="$(arg use_DWA)"/>
+    </node>
+</launch>

@@ -1,0 +1,20 @@
+# Check all usb devices: lsusb
+# Check one usb device when know tty* port: udevadm info -a -n {PORT} (such as udevadm info -a -n /dev/ttyACM0)
+# Copy rules file into root directory:
+    # sudo cp ~catkin_ws/src/my_new_robot/udev_rules/my_robot_usb.rules /etc/udev/rules.d/my_robot_usb.rules
+# Reload rules and restart services
+    # sudo udevadm control --reload-rules && sudo service udev restart && sudo udevadm trigger
+
+# Bus 001 Device 020: ID 1366:0105 SEGGER CP2102 USB to UART Bridge Controller UWB_right
+# SUBSYSTEM=="tty", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="1366", ATTRS{idProduct}=="0105", ATTRS{serial}=="000760129779" , MODE="0666", SYMLINK="ttyUSB_UWB_RIGHT"
+
+SUBSYSTEM=="tty", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="1366", ATTRS{idProduct}=="0105", ATTRS{serial}=="000760130081" , MODE="0666", SYMLINK="ttyUSB_UWB_RIGHT"
+
+# Bus 001 Device 035: ID 1366:0105 SEGGER USB2.0 Hub uwb_left
+SUBSYSTEM=="tty", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="1366", ATTRS{idProduct}=="0105", ATTRS{serial}=="000760130068" , MODE="0666", SYMLINK="ttyUSB_UWB_LEFT"
+# Bus 001 Device 005: ID 2341:8036 Arduino SA Leonardo (CDC ACM, HID)
+SUBSYSTEM=="tty", KERNEL=="ttyUSB[0-9]*", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", MODE="0666", SYMLINK="ttyUSB_ARDUINO"
+# Bus 001 Device 006: ID 10c4:ea60 Silicon Labs CP210x UART Bridge
+SUBSYSTEM=="tty", KERNEL=="ttyUSB[0-9]*", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0666", SYMLINK="ttyUSB_STM"
+# Bus 001 Device 007: ID 10c4:ea60 Silicon Labs CP210x UART Bridge
+SUBSYSTEM=="tty", KERNEL=="ttyUSB[0-9]*", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE="0666", SYMLINK="ttyUSB_LIDAR"

@@ -1,0 +1,18 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="open_rviz" default="true"/>
+
+  <!-- slam_karto -->
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <rosparam command="load" file="$(find my_new_robot)/my_robot_slam_new/config/gmapping_params.yaml"/>
+  </node>
+  
+  <node name="odom_pub" pkg="my_new_robot" type="odometry.py"/>
+
+  <!-- rviz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find my_new_robot)/my_robot_slam_new/rviz/slam.rviz"/>
+  </group>
+
+</launch>

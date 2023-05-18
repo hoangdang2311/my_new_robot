@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="rvizconfig" default="$(find my_new_robot)/my_robot_navigation/rviz/navigation.rviz"/>  
+    <arg name="map_file" default="$(find my_new_robot)/my_robot_slam/maps/kho1.yaml"/>
+    
+
+    <include file="$(find my_new_robot)/my_robot_description/launch/urdf.launch">
+        <arg name="rvizconfig" value="$(arg rvizconfig)"/>
+    </include>
+
+</launch>
+

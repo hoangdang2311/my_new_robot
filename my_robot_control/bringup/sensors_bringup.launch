@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+        <node name="node_lidar" pkg="rplidar_ros" type="rplidarNode" output="screen">
+            <param name="serial_port"         type="string" value="/dev/ttyUSB_LIDAR"/>
+            <param name="serial_baudrate"     type="int"    value="115200"/>
+            <param name="frame_id"            type="string" value="laser"/>
+            <param name="inverted"            type="bool"   value="false"/>
+            <param name="angle_compensate"    type="bool"   value="true"/>
+            <param name="scan_mode"           type="string" value="Express"/>
+        </node>
+
+        <node name="node_imu" pkg="rosserial_python" type="serial_node.py" output="screen">
+            <param name="port" value="/dev/ttyUSB_ARDUINO"/>
+            <param name="baud" value="57600"/>
+        </node>
+
+        <node name="node_stm" pkg="rosserial_python" type="serial_node.py" output="screen">
+            <param name="port" value="/dev/ttyUSB_STM"/>
+            <param name="baud" value="57600"/>
+        </node>
+
+        <!-- <node name="node_uwb" pkg="my_new_robot" type="dwm1001_main.py" output="screen">
+            <param name="serial_port_name1" value="/dev/ttyUSB_UWB_LEFT"/>
+            <param name="serial_baud_rate" value="115200"/>
+            <remap from="/dwm1001/tag1" to="/agv/uwb/tag1"/>
+            <param name="serial_port_name2" value="/dev/ttyUSB_UWB_RIGHT"/>
+            <param name="serial_baud_rate" value="115200"/>
+            <remap from="/dwm1001/tag2" to="/agv/uwb/tag2"/>
+            <remap from="/dwm1001/anchor0" to="/agv/uwb/anchor0"/>
+            <remap from="/dwm1001/anchor1" to="/agv/uwb/anchor1"/>
+            <remap from="/dwm1001/anchor2" to="/agv/uwb/anchor2"/>
+            <remap from="/dwm1001/anchor3" to="/agv/uwb/anchor3"/>
+        </node> -->
+
+</launch>
